@@ -22,6 +22,16 @@ jobs:
         run: |
           git clone https://github.com/duckduckgo/tracker-radar.git
 
+      # clone Consent-O-Matic repo
+      - name: Clone Consent-O-Matic
+        run: |
+          git clone https://github.com/cavi-au/Consent-O-Matic.git consent-o-matic
+
+      # clone Open Cookie Database repo
+      - name: Clone Open Cookie Database
+        run: |
+          git clone https://github.com/jkwakman/Open-Cookie-Database.git open-cookie-database
+
       # install node to run extract script
       - name: Install Node
         uses: actions/setup-node@v3
@@ -54,15 +64,16 @@ jobs:
           git clone https://${{ secrets.ACTIONS_TOKEN }}@github.com/leolivi/klartxt.git klartxt
           cp dist/tracker-core.json klartxt/src/data/trackers/
           cp dist/tracker-extended.json klartxt/src/data/trackers/
-          cp dist/fingerprint-domains.json klartxt/src/data/trackers/ 
-          cp dist/cmp-selectors.json klartxt/src/data/dsgvo/ 
+          cp dist/fingerprint-domains.json klartxt/src/data/trackers/
+          cp dist/cmp-selectors.json klartxt/src/data/dsgvo/
+          cp dist/cookie-heuristics.json klartxt/src/data/cookies/
           cd klartxt
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add src/data/trackers/tracker-core.json src/data/trackers/tracker-extended.json src/data/trackers/fingerprint-domains.json src/data/dsgvo/cmp-selectors.json
+          git add src/data/trackers/tracker-core.json src/data/trackers/tracker-extended.json src/data/trackers/fingerprint-domains.json src/data/dsgvo/cmp-selectors.json src/data/cookies/cookie-heuristics.json
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "Update tracker radar data (core + extended)"
+            git commit -m "Update tracker radar data (core + extended + fingerprints + cookies)"
             git push
           fi
