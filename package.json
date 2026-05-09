@@ -1,7 +1,7 @@
 {
-  "name": "tracker-radar-pipeline",
+  "name": "tracking-data-collector",
   "version": "1.0.0",
-  "description": "Pipeline to extract DuckDuckGo Tracker Radar data",
+  "description": "Collects and structures tracking, cookie and CMP data from multiple sources",
   "main": "extract.js",
   "type": "module",
   "scripts": {

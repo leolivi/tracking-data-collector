@@ -1,5 +1,5 @@
-# tracker-radar-pipeline
-
+# tracking-data-collector
+// TODO: update readme
 Pipeline to extract DuckDuckGo Tracker Radar data and convert it into a structured JSON file for further use.
 
 ## Description
