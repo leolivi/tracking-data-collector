@@ -1,4 +1,4 @@
-name: Update Tracker Radar
+name: Update Tracking Data
 
 on:
   # each Monday at 9am
@@ -17,17 +17,17 @@ jobs:
         with:
           token: ${{ secrets.ACTIONS_TOKEN }}
 
-      # clone tracker-radar from DuckDuckGo repo
+      # clone tracker-radar from DuckDuckGo repo (DuckDuckGo, Inc., 2025)
       - name: Clone DuckDuckGo Tracker Radar
         run: |
           git clone https://github.com/duckduckgo/tracker-radar.git
 
-      # clone Consent-O-Matic repo
+      # clone Consent-O-Matic repo (Nouwens und Nylandsted Klokmose, 2025)
       - name: Clone Consent-O-Matic
         run: |
           git clone https://github.com/cavi-au/Consent-O-Matic.git consent-o-matic
 
-      # clone Open Cookie Database repo
+      # clone Open Cookie Database repo (Kwakman, 2023)
       - name: Clone Open Cookie Database
         run: |
           git clone https://github.com/jkwakman/Open-Cookie-Database.git open-cookie-database
