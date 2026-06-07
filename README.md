@@ -24,7 +24,7 @@ This repository automates the extraction and transformation of tracker, CMP, coo
 | `dist/tracking-params.json` | Known tracking URL parameters |
 | `dist/cmp-selectors.json` | CMP names and their CSS selectors |
 | `dist/cookie-heuristics.json` | Cookie names categorized by purpose |
-| `dist/tranco-candidates.json` | Top 100 domains from Tranco for E2E test site curation |
+| `dist/tranco-candidates.json` | Top 100 domains from Tranco -> run on demand for site re-curation, not part of the weekly sync |
 
 ## Usage
 
