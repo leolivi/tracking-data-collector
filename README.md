@@ -4,13 +4,14 @@ Pipeline to collect and process tracking-related data from multiple sources and 
 
 ## Description
 
-This repository automates the extraction and transformation of tracker, CMP, and cookie data from three open-source datasets. The pipeline runs as a weekly cron job and automatically syncs the updated data to the [detecta](https://github.com/leolivi/detecta) and [klartxt](https://github.com/leolivi/klartxt) extension repositories.
+This repository automates the extraction and transformation of tracker, CMP, cookie, and E2E test site data from multiple open-source datasets and public APIs. The pipeline runs as a weekly cron job and automatically syncs the updated data to the [detecta](https://github.com/leolivi/detecta) and [klartxt](https://github.com/leolivi/klartxt) extension repositories.
 
 ## Features
 
 - Extracts tracker, fingerprinting, and tracking parameter data from DuckDuckGo Tracker Radar (DuckDuckGo, Inc., 2025)
 - Extracts CMP selectors from Consent-O-Matic (Nouwens und Nylandsted Klokmose, 2025)
 - Extracts cookie category heuristics from the Open Cookie Database (Kwakman, 2023)
+- Fetches the current Tranco top-100 domain list for E2E test site curation (Le Pochat et al., 2019)
 - Runs automatically on a weekly schedule and pushes updates to downstream repos
 
 ## Output
@@ -23,12 +24,18 @@ This repository automates the extraction and transformation of tracker, CMP, and
 | `dist/tracking-params.json` | Known tracking URL parameters |
 | `dist/cmp-selectors.json` | CMP names and their CSS selectors |
 | `dist/cookie-heuristics.json` | Cookie names categorized by purpose |
+| `dist/tranco-candidates.json` | Top 100 domains from Tranco for E2E test site curation |
 
 ## Usage
+
+> **Note:** `npm run extract` requires the external source repositories (`tracker-radar`, `consent-o-matic`, `open-cookie-database`) to be cloned into the project root first. This happens automatically in the GitHub Actions pipeline but must be done manually for local runs. The script is intended to be run via the automated workflow.
 
 To run the pipeline locally:
 
 ```zsh
+git clone https://github.com/duckduckgo/tracker-radar.git
+git clone https://github.com/cavi-au/Consent-O-Matic.git consent-o-matic
+git clone https://github.com/jkwakman/Open-Cookie-Database.git open-cookie-database
 npm run extract
 ```
 
@@ -39,11 +46,7 @@ After execution, the extracted data will be available in the `dist/` directory.
 ```
 tracking-data-collector/
 ├── extract.js
-├── scripts/
-│   ├── DataCollector.js
-│   ├── tracker-data-fetch.js
-│   ├── cmp-data-fetch.js
-│   └── cookie-data-fetch.js
+├── scripts/ ...
 └── .github/
     └── workflows/
         └── update.yml
@@ -88,6 +91,8 @@ MIT License. Source data is publicly available from the projects listed below.
 DuckDuckGo, Inc., 2025. duckduckgo/tracker-radar. [online] GitHub. Verfügbar unter: https://github.com/duckduckgo/tracker-radar [Zugegriffen 13 November 2025].
 
 Kwakman, J., 2023. Open Cookie Database. [online] GitHub. Verfügbar unter: https://github.com/jkwakman/Open-Cookie-Database [Zugegriffen 10 Mai 2026].
+
+Le Pochat, V., Van Goethem, T., Tajalizadehkhoob, S., Korczynski, M. und Joosen, W., 2019. Tranco: A Research-Oriented Top Sites Ranking Hardened Against Manipulation. In: Proceedings 2019 Network and Distributed System Security Symposium. [online] Network and Distributed System Security Symposium. San Diego, CA: Internet Society. https://doi.org/10.14722/ndss.2019.23386.
 
 Nouwens, M. und Nylandsted Klokmose, C., 2025. Consent-O-Matic. [online] Verfügbar unter: https://consentomatic.au.dk/ [Zugegriffen 30 Dezember 2025].
 
