@@ -23,7 +23,7 @@ export class DataCollector {
             version: new Date().toISOString().split("T")[0],
             totalCount,
             ...maps,
-        }));
+        }, null, 2));
     }
 
     // collect all json files in the directory
