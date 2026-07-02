@@ -42,7 +42,20 @@ jobs:
       - name: Run extract script
         run: node extract.js
 
-     #  push to extension repos
+      # commit generated data to this repo so downstream repos can pull it
+      - name: Commit generated data
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add dist
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "chore: update generated tracking data"
+            git push
+          fi
+
+      #  push to extension repos
       - name: Push updated TS files to detecta repo
         run: |
           git clone https://${{ secrets.ACTIONS_TOKEN }}@github.com/leolivi/detecta.git detecta
@@ -59,23 +72,5 @@ jobs:
             git push
           fi
 
-      - name: Push updated TS files to klartxt repo
-        run: |
-          git clone https://${{ secrets.ACTIONS_TOKEN }}@github.com/leolivi/klartxt.git klartxt
-          cp dist/tracker-core.json klartxt/src/data/trackers/
-          cp dist/tracker-extended.json klartxt/src/data/trackers/
-          cp dist/fingerprint-domains.json klartxt/src/data/trackers/
-          cp dist/tracking-params.json klartxt/src/data/trackers/
-          cp dist/cmp-selectors.json klartxt/src/data/dsgvo/
-          cp dist/cookie-heuristics.json klartxt/src/data/cookies/
-          # cp dist/tranco-candidates.json klartxt/e2e/
-          cd klartxt
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add src/data/trackers/tracker-core.json src/data/trackers/tracker-extended.json src/data/trackers/fingerprint-domains.json src/data/trackers/tracking-params.json src/data/dsgvo/cmp-selectors.json src/data/cookies/cookie-heuristics.json
-          if git diff --cached --quiet; then
-            echo "No changes"
-          else
-            git commit -m "Update tracker radar data"
-            git push
-          fi
+      # klartxt no longer gets pushed to directly - it pulls the data itself
+      # weekly via its own "Sync Tracking Data" action (see klartxt repo).
