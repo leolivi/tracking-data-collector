@@ -54,23 +54,3 @@ jobs:
             git commit -m "chore: update generated tracking data"
             git push
           fi
-
-      #  push to extension repos
-      - name: Push updated TS files to detecta repo
-        run: |
-          git clone https://${{ secrets.ACTIONS_TOKEN }}@github.com/leolivi/detecta.git detecta
-          cp dist/tracker-core.json detecta/src/data/
-          cp dist/tracker-extended.json detecta/src/data/
-          cd detecta
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add src/data/tracker-core.json src/data/tracker-extended.json
-          if git diff --cached --quiet; then
-            echo "No changes"
-          else
-            git commit -m "Update tracker radar data (core + extended)"
-            git push
-          fi
-
-      # klartxt no longer gets pushed to directly - it pulls the data itself
-      # weekly via its own "Sync Tracking Data" action (see klartxt repo).
